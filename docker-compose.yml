@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  oddhill-serve:
+    build: docker/php
+    restart: unless-stopped
+    container_name: oddhill-phpfpm-serve
+    ports:
+      - 80:80
+    volumes:
+      - .:/webroot
+    command: php artisan serve --host=0.0.0.0 --port 80
+    depends_on:
+      oddhill-mysql:
+        condition: service_healthy
+    networks:
+      oddhill:
+
+  oddhill-mysql:
+    image: mariadb
+    container_name: oddhill-mysql
+    restart: unless-stopped
+    volumes:
+      - ./docker/db-data/:/var/lib/mysql
+      - ./docker/source.sql:/source.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=database
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - oddhill
+
+networks:
+  oddhill:
