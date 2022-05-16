@@ -11,7 +11,7 @@
     Route::get('/books/{book}/genre', fn(Book $book) => Arr::pluck($book->load('book_genre.genre')['book_genre'], 'genre')); // prettify
 
     Route::get('/authors', '\App\Http\Controllers\AuthorController@index');
-    Route::get('/authors/{author}', fn() => Author::all());
+    Route::get('/authors/{author}', fn(Author $author) => $author);
 
     Route::get('/genres', '\App\Http\Controllers\GenreController@index');
-    Route::get('/genres/{genre}', fn() => Genre::all());
+    Route::get('/genres/{genre}', fn(Genre $genre) => $genre);
