@@ -8,8 +8,8 @@
     Route::get('/books', '\App\Http\Controllers\BookController@index');
     Route::get('/books/{book}/openLibrary', '\App\Http\Controllers\BookController@viewOpenLibrary');
     Route::get('/books/{book}', fn(Book $book) => $book);
-    Route::get('/books/{book}/author', fn(Book $book) => Arr::pluck($book->load('author_book.author')['author_book'], 'author')); // prettify
-    Route::get('/books/{book}/genre', fn(Book $book) => Arr::pluck($book->load('book_genre.genre')['book_genre'], 'genre')); // prettify
+    Route::get('/books/{book}/authors', fn(Book $book) => Arr::pluck($book->load('author_book.author')['author_book'], 'author')); // prettify
+    Route::get('/books/{book}/genres', fn(Book $book) => Arr::pluck($book->load('book_genre.genre')['book_genre'], 'genre')); // prettify
 
     Route::get('/authors', '\App\Http\Controllers\AuthorController@index');
     Route::get('/authors/{author}', fn(Author $author) => $author);
