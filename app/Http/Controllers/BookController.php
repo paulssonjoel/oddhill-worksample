@@ -24,6 +24,28 @@ class BookController extends Controller
         return $q->get();
     }
 
+    public function store(Request $request)
+    {
+        // Validate
+        $validated = $request->validate(
+            [
+            'title' => 'required|filled|max:255',
+            'isbn' => 'required|filled|numeric|max:13',
+            'description' => 'max:65535',
+            ]
+        );
+
+        // Store
+        $model = new Book;
+        $model->title = $validated['title'];
+        $model->isbn = $validated['isbn'];
+        $model->description = $validated['description'];
+        $model->save();
+
+        // Redirect back
+        return back();
+    }
+
     public function viewOpenLibrary(Request $request, Book $book)
     {
         // Query Open Library with ISBN
