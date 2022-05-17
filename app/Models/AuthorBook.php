@@ -11,6 +11,8 @@ class AuthorBook extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'authors_books';
 
     public function author()

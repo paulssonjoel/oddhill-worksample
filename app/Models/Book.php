@@ -11,6 +11,8 @@ class Book extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function author_book()
     {
         return $this->hasMany(AuthorBook::class);

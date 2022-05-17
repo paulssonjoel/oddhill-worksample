@@ -11,6 +11,8 @@ class BookGenre extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'books_genres';
 
     public function book()
