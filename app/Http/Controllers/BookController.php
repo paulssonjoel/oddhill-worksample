@@ -6,6 +6,8 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Utilities\Search;
 use Illuminate\Support\Facades\Http;
+use App\Models\Author;
+use App\Models\AuthorBook;
 
 class BookController extends Controller
 {
@@ -18,10 +20,21 @@ class BookController extends Controller
             $q, [
             'isbn' => $request->input('isbn'),
             'title' => $request->input('title'),
-             ]
+            ]
         );
 
         return $q->get();
+    }
+
+    public function create(Request $request)
+    {
+        // Create form
+        return view(
+            'books.create',
+            [
+            'authors' => Author::all('id', 'name'), // List of authors to select from
+            ]
+        );
     }
 
     public function store(Request $request)
@@ -30,17 +43,28 @@ class BookController extends Controller
         $validated = $request->validate(
             [
             'title' => 'required|filled|max:255',
-            'isbn' => 'required|filled|numeric|max:13',
+            'isbn' => 'required|filled|digits_between:1,13',
+            'author' => 'required|exists:authors,id',
             'description' => 'max:65535',
             ]
         );
 
-        // Store
-        $model = new Book;
-        $model->title = $validated['title'];
-        $model->isbn = $validated['isbn'];
-        $model->description = $validated['description'];
-        $model->save();
+        \DB::transaction(
+            function () use ($validated) {
+                // Store book
+                $book = new Book;
+                $book->title = $validated['title'];
+                $book->isbn = $validated['isbn'];
+                $book->description = $validated['description'];
+                $book->save();
+
+                // Store author-book relationship
+                $authorBooks = new AuthorBook;
+                $authorBooks->author_id = $validated['author'];
+                $authorBooks->book_id = $book->id;
+                $authorBooks->save();
+            }
+        );
 
         // Redirect back
         return back();
