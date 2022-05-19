@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Utilities\Search;
@@ -11,21 +12,6 @@ use App\Models\AuthorBook;
 
 class BookController extends Controller
 {
-    public function index(Request $request)
-    {
-        // Retrieve books, optionally with 'isbn' and 'title' as search terms
-        $q = new Book;
-
-        $q = Search::search(
-            $q, [
-            'isbn' => $request->input('isbn'),
-            'title' => $request->input('title'),
-            ]
-        );
-
-        return $q->get();
-    }
-
     public function create(Request $request)
     {
         // Create form
