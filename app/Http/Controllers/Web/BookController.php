@@ -30,7 +30,8 @@ class BookController extends Controller
             [
             'title' => 'required|filled|max:255',
             'isbn' => 'required|filled|digits_between:1,13',
-            'author' => 'required|exists:authors,id',
+            'authors' => 'required|array',
+            'authors.*' => 'required|distinct|exists:authors,id',
             'description' => 'max:65535',
             ]
         );
@@ -44,16 +45,30 @@ class BookController extends Controller
                 $book->description = $validated['description'];
                 $book->save();
 
-                // Store author-book relationship
-                $authorBooks = new AuthorBook;
-                $authorBooks->author_id = $validated['author'];
-                $authorBooks->book_id = $book->id;
-                $authorBooks->save();
+                // Store author-book relationships
+                foreach($validated['authors'] as $authorID) {
+                    $authorBooks = new AuthorBook;
+                    $authorBooks->author_id = $authorID;
+                    $authorBooks->book_id = $book->id;
+                    $authorBooks->save();
+                }
             }
         );
 
         // Redirect back
         return back();
+    }
+
+    public function edit(Request $request, Book $book)
+    {
+        // Edit form
+        return view(
+            'books.edit',
+            [
+            $book,
+            'possibleAuthors' => Author::all('id', 'name'), // List of authors to select from
+            ]
+        );
     }
 
     public function viewOpenLibrary(Request $request, Book $book)

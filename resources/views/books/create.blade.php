@@ -3,14 +3,17 @@
 <form action="" method="POST">
 	<input name="title" placeholder="name">
 	<input name="isbn" placeholder="isbn">
-
-	<select name="author">
-		@foreach($authors as $author)
-			<option value="{{ $author->id }}">{{ $author->name }}</option>
-		@endforeach
-	</select>
-
 	<textarea name="description" placeholder="description"></textarea>
+
+	<br>
+
+	Select authors:
+	@foreach($authors as $author)
+		{{ $author->name }}: <input type="checkbox" name="authors[]" value="{{ $author->id}}">
+	@endforeach
+
+	<br>
+
 	<input type="submit">
 	@csrf
 </form>
