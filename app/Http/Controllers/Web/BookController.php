@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Utilities\Search;
-use Illuminate\Support\Facades\Http;
 use App\Models\Author;
 use App\Models\AuthorBook;
 
@@ -114,17 +113,5 @@ class BookController extends Controller
         );
 
         return back();
-    }
-
-    public function viewOpenLibrary(Request $request, Book $book)
-    {
-        // Query Open Library with ISBN
-        $response = Http::accept('application/json')->get('https://openlibrary.org/isbn/'.$book->isbn)->json();
-
-        if(!$response) {
-            return response(null, 404);
-        }
-
-        return $response;
     }
 }
