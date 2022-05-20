@@ -12,3 +12,4 @@ Route::get('/authors/create', '\App\Http\Controllers\Web\AuthorController@create
 Route::post('/authors/create', '\App\Http\Controllers\Web\AuthorController@store');
 Route::get('/authors/{author}/edit', '\App\Http\Controllers\Web\AuthorController@edit');
 Route::post('/authors/{author}/edit', '\App\Http\Controllers\Web\AuthorController@update');
+Route::post('/authors/{author}/delete', '\App\Http\Controllers\Web\AuthorController@destroy');

@@ -62,4 +62,10 @@ class AuthorController extends Controller
         return back();
     }
 
+    public function destroy(Request $request, Author $author)
+    {
+        $author->author_book()->delete();
+        $author->delete();
+        return redirect('/authors/create');
+    }
 }
