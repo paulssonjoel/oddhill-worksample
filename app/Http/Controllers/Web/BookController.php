@@ -114,4 +114,12 @@ class BookController extends Controller
 
         return back();
     }
+
+    public function destroy(Request $request, Book $book)
+    {
+        $book->author_book()->delete();
+        $book->book_genre()->delete();
+        $book->delete();
+        return redirect('/books/create');
+    }
 }

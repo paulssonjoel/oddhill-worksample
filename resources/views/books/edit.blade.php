@@ -13,3 +13,8 @@
 	<input type="submit">
 	@csrf
 </form>
+
+<form action="/books/{{ $book->id }}/delete" method="POST">
+	<input type="submit" value="Delete">
+	@csrf
+</form>
