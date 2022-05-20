@@ -86,7 +86,8 @@ class BookController extends Controller
             'books.edit',
             [
                 'book' => $book,
-                'possibleAuthors' => Author::all('id', 'name'), // List of authors to select from
+                'possibleAuthors' => Author::all('id', 'name'),
+                'possibleGenres' => Genre::all('id', 'name'),
             ]
         );
     }
@@ -101,6 +102,8 @@ class BookController extends Controller
                 'authors' => static::$validationRules['authors'],
                 'authors.*' => static::$validationRules['authors.*'],
                 'description' => static::$validationRules['description'],
+                'genres' => static::$validationRules['genres'],
+                'genres.*' => static::$validationRules['genres.*'],
             ]
         );
 
@@ -123,6 +126,21 @@ class BookController extends Controller
                         }
                     }
                     $book->author_book()->saveMany($newAuthorBooks);
+                }
+
+                if (isset($validated['genres'])) {
+                    // Remove genres no longer selected
+                    $book->book_genre()->whereNotIn('genre_id', $validated['genres'])->delete();
+
+                    // Add newly selected genres
+                    $newBookGenres = [];
+                    foreach ($validated['genres'] as $id) {
+                        if (!$book->book_genre->contains($id)) {
+                            // Not in DB, add
+                            $newBookGenres[] = new BookGenre(['genre_id' => $id]);
+                        }
+                    }
+                    $book->book_genre()->saveMany($newBookGenres);
                 }
             }
         );
