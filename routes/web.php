@@ -13,3 +13,6 @@ Route::post('/authors/create', '\App\Http\Controllers\Web\AuthorController@store
 Route::get('/authors/{author}/edit', '\App\Http\Controllers\Web\AuthorController@edit');
 Route::post('/authors/{author}/edit', '\App\Http\Controllers\Web\AuthorController@update');
 Route::post('/authors/{author}/delete', '\App\Http\Controllers\Web\AuthorController@destroy');
+
+Route::get('/genres/create', '\App\Http\Controllers\Web\GenreController@create');
+Route::post('/genres/create', '\App\Http\Controllers\Web\GenreController@store');
