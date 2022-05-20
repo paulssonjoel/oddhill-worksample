@@ -11,6 +11,8 @@ class Author extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'biography'];
+
     public $timestamps = false;
 
     public function author_book()

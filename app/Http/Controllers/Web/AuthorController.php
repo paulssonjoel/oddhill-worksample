@@ -38,4 +38,28 @@ class AuthorController extends Controller
         // Redirect back
         return back();
     }
+
+    public function edit(Request $request, Author $author)
+    {
+        // Edit form
+        return view('authors.edit', ['author' => $author]);
+    }
+
+    public function update(Request $request, Author $author)
+    {
+        // Validate
+        $validated = $request->validate(
+            [
+            'name' => static::$validationRules['name'],
+            'biography' => static::$validationRules['biography'],
+            ]
+        );
+
+		// Update author
+		$author->fill(\Arr::only($validated, ['name', 'biography']));
+		$author->save();
+
+        return back();
+    }
+
 }
