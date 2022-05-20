@@ -56,7 +56,7 @@ class AuthorController extends Controller
         );
 
         // Update author
-        $author->fill(\Arr::only($validated, ['name', 'biography']));
+        $author->fill($validated);
         $author->save();
 
         return back();
