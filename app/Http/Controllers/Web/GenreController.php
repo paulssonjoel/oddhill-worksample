@@ -31,4 +31,22 @@ class GenreController extends Controller
         // Redirect back
         return back();
     }
+
+    public function edit(Request $request, Genre $genre)
+    {
+        // Edit form
+        return view('genres.edit', ['genre' => $genre]);
+    }
+
+    public function update(Request $request, Genre $genre)
+    {
+        // Validate
+        $validated = $request->validate(['name' => static::$validationRules['name']]);
+
+        // Update genre
+        $genre->fill($validated);
+        $genre->save();
+
+        return back();
+    }
 }
