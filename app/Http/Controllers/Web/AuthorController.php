@@ -29,11 +29,11 @@ class AuthorController extends Controller
             ]
         );
 
-		// Store author
-		$author = new Author;
-		$author->name = $validated['name'];
-		$author->biography = $validated['biography'];
-		$author->save();
+        // Store author
+        $author = new Author;
+        $author->name = $validated['name'];
+        $author->biography = $validated['biography'];
+        $author->save();
 
         // Redirect back
         return back();
@@ -55,9 +55,9 @@ class AuthorController extends Controller
             ]
         );
 
-		// Update author
-		$author->fill(\Arr::only($validated, ['name', 'biography']));
-		$author->save();
+        // Update author
+        $author->fill(\Arr::only($validated, ['name', 'biography']));
+        $author->save();
 
         return back();
     }
