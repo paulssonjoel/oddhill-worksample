@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Genre;
+use Illuminate\Support\Arr;
 
 Route::get('/books', '\App\Http\Controllers\API\BookController@index');
 Route::get('/books/{book}/openLibrary', '\App\Http\Controllers\API\BookController@viewOpenLibrary');

@@ -10,6 +10,8 @@ use App\Models\Author;
 use App\Models\AuthorBook;
 use App\Models\BookGenre;
 use App\Models\Genre;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -52,7 +54,7 @@ class BookController extends Controller
             ]
         );
 
-        \DB::transaction(
+        DB::transaction(
             function () use ($validated) {
                 // Store book
                 $book = new Book;
@@ -102,10 +104,10 @@ class BookController extends Controller
             ]
         );
 
-        \DB::transaction(
+        DB::transaction(
             function () use ($validated, $book) {
                 // Update book
-                $book->fill(\Arr::only($validated, ['title', 'isbn', 'description']));
+                $book->fill(Arr::only($validated, ['title', 'isbn', 'description']));
                 $book->save();
 
                 if (isset($validated['authors'])) {
