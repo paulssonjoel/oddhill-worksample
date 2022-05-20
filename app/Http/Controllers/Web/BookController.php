@@ -56,10 +56,7 @@ class BookController extends Controller
 
                 // Store author-book relationships
                 foreach($validated['authors'] as $authorID) {
-                    $authorBooks = new AuthorBook;
-                    $authorBooks->author_id = $authorID;
-                    $authorBooks->book_id = $book->id;
-                    $authorBooks->save();
+                    $book->author_book()->save(new AuthorBook(['author_id' => $authorID]));
                 }
             }
         );
