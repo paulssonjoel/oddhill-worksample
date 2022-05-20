@@ -9,8 +9,8 @@ use App\Models\Author;
 class AuthorController extends Controller
 {
     protected static $validationRules = [
-    'name' => ['filled', 'max:255'],
-    'biography' => ['max:65535'],
+        'name' => ['filled', 'max:255'],
+        'biography' => ['max:65535'],
     ];
 
     public function create(Request $request)
@@ -24,8 +24,8 @@ class AuthorController extends Controller
         // Validate
         $validated = $request->validate(
             [
-            'name' => array_merge(['required'], static::$validationRules['name']),
-            'biography' => static::$validationRules['biography'],
+                'name' => array_merge(['required'], static::$validationRules['name']),
+                'biography' => static::$validationRules['biography'],
             ]
         );
 
@@ -50,8 +50,8 @@ class AuthorController extends Controller
         // Validate
         $validated = $request->validate(
             [
-            'name' => static::$validationRules['name'],
-            'biography' => static::$validationRules['biography'],
+                'name' => static::$validationRules['name'],
+                'biography' => static::$validationRules['biography'],
             ]
         );
 

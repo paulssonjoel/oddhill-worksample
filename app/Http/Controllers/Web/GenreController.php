@@ -9,7 +9,7 @@ use App\Models\Genre;
 class GenreController extends Controller
 {
     protected static $validationRules = [
-    'name' => ['filled', 'max:255'],
+        'name' => ['filled', 'max:255'],
     ];
 
     public function create(Request $request)

@@ -6,7 +6,7 @@
 
 	Select authors:
 	@foreach($possibleAuthors as $author)
-		{{ $author->name }}: <input type="checkbox" name="authors[]" value="{{ $author->id}}" @if($book->author_book->contains('author_id', $author->id)) checked="true" @endif>
+	{{ $author->name }}: <input type="checkbox" name="authors[]" value="{{ $author->id}}" @if($book->author_book->contains('author_id', $author->id)) checked="true" @endif>
 	@endforeach
 
 	<textarea name="description" placeholder="description">{{ $book->description }}</textarea>

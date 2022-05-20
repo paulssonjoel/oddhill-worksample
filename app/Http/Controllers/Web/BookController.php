@@ -14,13 +14,13 @@ use App\Models\Genre;
 class BookController extends Controller
 {
     protected static $validationRules = [
-    'title' => ['filled', 'max:255'],
-    'isbn' => ['filled', 'digits_between:1,13'],
-    'authors' => ['array'],
-    'authors.*' => ['distinct', 'exists:authors,id'],
-    'genres' => ['array'],
-    'genres.*' => ['distinct', 'exists:genres,id'],
-    'description' => ['max:65535'],
+        'title' => ['filled', 'max:255'],
+        'isbn' => ['filled', 'digits_between:1,13'],
+        'authors' => ['array'],
+        'authors.*' => ['distinct', 'exists:authors,id'],
+        'genres' => ['array'],
+        'genres.*' => ['distinct', 'exists:genres,id'],
+        'description' => ['max:65535'],
     ];
 
 
@@ -42,13 +42,13 @@ class BookController extends Controller
         // Validate
         $validated = $request->validate(
             [
-            'title' => array_merge(['required'], static::$validationRules['title']),
-            'isbn' => array_merge(['required'], static::$validationRules['isbn']),
-            'authors' => array_merge(['required'], static::$validationRules['authors']),
-            'authors.*' => array_merge(['required'], static::$validationRules['authors.*']),
-            'genres' => array_merge(['required'], static::$validationRules['genres']),
-            'genres.*' => array_merge(['required'], static::$validationRules['genres.*']),
-            'description' => static::$validationRules['description'],
+                'title' => array_merge(['required'], static::$validationRules['title']),
+                'isbn' => array_merge(['required'], static::$validationRules['isbn']),
+                'authors' => array_merge(['required'], static::$validationRules['authors']),
+                'authors.*' => array_merge(['required'], static::$validationRules['authors.*']),
+                'genres' => array_merge(['required'], static::$validationRules['genres']),
+                'genres.*' => array_merge(['required'], static::$validationRules['genres.*']),
+                'description' => static::$validationRules['description'],
             ]
         );
 
@@ -62,12 +62,12 @@ class BookController extends Controller
                 $book->save();
 
                 // Store author-book relationships
-                foreach($validated['authors'] as $authorID) {
+                foreach ($validated['authors'] as $authorID) {
                     $book->author_book()->save(new AuthorBook(['author_id' => $authorID]));
                 }
 
-                 // Store genre-book relationships
-                 foreach($validated['genres'] as $id) {
+                // Store genre-book relationships
+                foreach ($validated['genres'] as $id) {
                     $book->author_book()->save(new BookGenre(['genre_id' => $id]));
                 }
             }
@@ -83,8 +83,8 @@ class BookController extends Controller
         return view(
             'books.edit',
             [
-            'book' => $book,
-            'possibleAuthors' => Author::all('id', 'name'), // List of authors to select from
+                'book' => $book,
+                'possibleAuthors' => Author::all('id', 'name'), // List of authors to select from
             ]
         );
     }
@@ -94,11 +94,11 @@ class BookController extends Controller
         // Validate
         $validated = $request->validate(
             [
-            'title' => static::$validationRules['title'],
-            'isbn' => static::$validationRules['isbn'],
-            'authors' => static::$validationRules['authors'],
-            'authors.*' => static::$validationRules['authors.*'],
-            'description' => static::$validationRules['description'],
+                'title' => static::$validationRules['title'],
+                'isbn' => static::$validationRules['isbn'],
+                'authors' => static::$validationRules['authors'],
+                'authors.*' => static::$validationRules['authors.*'],
+                'description' => static::$validationRules['description'],
             ]
         );
 
@@ -108,16 +108,16 @@ class BookController extends Controller
                 $book->fill(\Arr::only($validated, ['title', 'isbn', 'description']));
                 $book->save();
 
-                if(isset($validated['authors'])) {
+                if (isset($validated['authors'])) {
                     // Remove authors no longer selected
                     $book->author_book()->whereNotIn('author_id', $validated['authors'])->delete();
 
                     // Add newly selected authors
                     $newAuthorBooks = [];
-                    foreach($validated['authors'] as $authorID) {
-                        if(!$book->author_book->contains($authorID)) {
-                                  // Not in DB, add
-                                  $newAuthorBooks[] = new AuthorBook(['author_id' => $authorID]);
+                    foreach ($validated['authors'] as $authorID) {
+                        if (!$book->author_book->contains($authorID)) {
+                            // Not in DB, add
+                            $newAuthorBooks[] = new AuthorBook(['author_id' => $authorID]);
                         }
                     }
                     $book->author_book()->saveMany($newAuthorBooks);

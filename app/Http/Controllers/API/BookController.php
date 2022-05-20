@@ -16,9 +16,10 @@ class BookController extends Controller
         $q = new Book;
 
         $q = Search::search(
-            $q, [
-            'isbn' => $request->input('isbn'),
-            'title' => $request->input('title'),
+            $q,
+            [
+                'isbn' => $request->input('isbn'),
+                'title' => $request->input('title'),
             ]
         );
 
@@ -28,9 +29,9 @@ class BookController extends Controller
     public function viewOpenLibrary(Request $request, Book $book)
     {
         // Query Open Library with ISBN
-        $response = Http::accept('application/json')->get('https://openlibrary.org/isbn/'.$book->isbn)->json();
+        $response = Http::accept('application/json')->get('https://openlibrary.org/isbn/' . $book->isbn)->json();
 
-        if(!$response) {
+        if (!$response) {
             return response(null, 404);
         }
 
