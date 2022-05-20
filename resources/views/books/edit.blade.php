@@ -9,7 +9,7 @@
 		{{ $author->name }}: <input type="checkbox" name="authors[]" value="{{ $author->id}}" @if($book->author_book->contains('author_id', $author->id)) checked="true" @endif>
 	@endforeach
 
-	<textarea name="description" placeholder="description" value="{{ $book->description }}"></textarea>
+	<textarea name="description" placeholder="description">{{ $book->description }}</textarea>
 	<input type="submit">
 	@csrf
 </form>
