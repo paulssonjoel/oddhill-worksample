@@ -10,12 +10,12 @@ Route::post('/books/{book}/delete', '\App\Http\Controllers\Web\BookController@de
 
 Route::get('/authors/create', '\App\Http\Controllers\Web\AuthorController@create');
 Route::post('/authors/create', '\App\Http\Controllers\Web\AuthorController@store');
-Route::get('/authors/{author}/edit', '\App\Http\Controllers\Web\AuthorController@edit');
-Route::post('/authors/{author}/edit', '\App\Http\Controllers\Web\AuthorController@update');
+Route::get('/authors/{author}', '\App\Http\Controllers\Web\AuthorController@edit');
+Route::post('/authors/{author}', '\App\Http\Controllers\Web\AuthorController@update');
 Route::post('/authors/{author}/delete', '\App\Http\Controllers\Web\AuthorController@destroy');
 
 Route::get('/genres/create', '\App\Http\Controllers\Web\GenreController@create');
 Route::post('/genres/create', '\App\Http\Controllers\Web\GenreController@store');
-Route::get('/genres/{genre}/edit', '\App\Http\Controllers\Web\GenreController@edit');
-Route::post('/genres/{genre}/edit', '\App\Http\Controllers\Web\GenreController@update');
+Route::get('/genres/{genre}', '\App\Http\Controllers\Web\GenreController@edit');
+Route::post('/genres/{genre}', '\App\Http\Controllers\Web\GenreController@update');
 Route::post('/genres/{genre}/delete', '\App\Http\Controllers\Web\GenreController@destroy');
