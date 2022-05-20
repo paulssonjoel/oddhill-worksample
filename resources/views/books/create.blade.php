@@ -9,7 +9,14 @@
 
 	Select authors:
 	@foreach($authors as $author)
-		{{ $author->name }}: <input type="checkbox" name="authors[]" value="{{ $author->id}}">
+    {{ $author->name }}: <input type="checkbox" name="authors[]" value="{{ $author->id}}">
+	@endforeach
+
+	<br>
+
+	Select genres:
+	@foreach($genres as $genre)
+	{{ $genre->name }}: <input type="checkbox" name="genres[]" value="{{ $genre->id}}">
 	@endforeach
 
 	<br>

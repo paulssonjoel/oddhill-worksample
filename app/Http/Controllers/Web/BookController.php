@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Utilities\Search;
 use App\Models\Author;
 use App\Models\AuthorBook;
+use App\Models\BookGenre;
+use App\Models\Genre;
 
 class BookController extends Controller
 {
@@ -16,6 +18,8 @@ class BookController extends Controller
     'isbn' => ['filled', 'digits_between:1,13'],
     'authors' => ['array'],
     'authors.*' => ['distinct', 'exists:authors,id'],
+    'genres' => ['array'],
+    'genres.*' => ['distinct', 'exists:genres,id'],
     'description' => ['max:65535'],
     ];
 
@@ -26,7 +30,9 @@ class BookController extends Controller
         return view(
             'books.create',
             [
-            'authors' => Author::all('id', 'name'), // List of authors to select from
+                // Genres/authors to select from
+                'authors' => Author::all('id', 'name'),
+                'genres' => Genre::all('id', 'name'),
             ]
         );
     }
@@ -40,6 +46,8 @@ class BookController extends Controller
             'isbn' => array_merge(['required'], static::$validationRules['isbn']),
             'authors' => array_merge(['required'], static::$validationRules['authors']),
             'authors.*' => array_merge(['required'], static::$validationRules['authors.*']),
+            'genres' => array_merge(['required'], static::$validationRules['genres']),
+            'genres.*' => array_merge(['required'], static::$validationRules['genres.*']),
             'description' => static::$validationRules['description'],
             ]
         );
@@ -56,6 +64,11 @@ class BookController extends Controller
                 // Store author-book relationships
                 foreach($validated['authors'] as $authorID) {
                     $book->author_book()->save(new AuthorBook(['author_id' => $authorID]));
+                }
+
+                 // Store genre-book relationships
+                 foreach($validated['genres'] as $id) {
+                    $book->author_book()->save(new BookGenre(['genre_id' => $id]));
                 }
             }
         );
