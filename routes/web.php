@@ -18,3 +18,4 @@ Route::get('/genres/create', '\App\Http\Controllers\Web\GenreController@create')
 Route::post('/genres/create', '\App\Http\Controllers\Web\GenreController@store');
 Route::get('/genres/{genre}/edit', '\App\Http\Controllers\Web\GenreController@edit');
 Route::post('/genres/{genre}/edit', '\App\Http\Controllers\Web\GenreController@update');
+Route::post('/genres/{genre}/delete', '\App\Http\Controllers\Web\GenreController@destroy');

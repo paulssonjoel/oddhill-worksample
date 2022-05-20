@@ -49,4 +49,11 @@ class GenreController extends Controller
 
         return back();
     }
+
+    public function destroy(Request $request, Genre $genre)
+    {
+        $genre->book_genre()->delete();
+        $genre->delete();
+        return redirect('/genres/create');
+    }
 }

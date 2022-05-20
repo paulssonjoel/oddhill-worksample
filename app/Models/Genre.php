@@ -12,4 +12,9 @@ class Genre extends Model
     protected $fillable = ['name'];
 
     public $timestamps = false;
+
+    public function book_genre()
+    {
+        return $this->hasMany(BookGenre::class);
+    }
 }
