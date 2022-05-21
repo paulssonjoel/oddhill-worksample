@@ -17,7 +17,7 @@ class IsAdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         // Reject non-admins
-        if (!session()->get('isAdmin')) abort(403);
+        if (!session()->get('isAdmin')) return redirect('/login');
 
         return $next($request);
     }
