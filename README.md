@@ -1,7 +1,12 @@
 # Backenddemo till Odd Hill
-## Start
-1. `docker-compose up -d`
-2. `./initdb.sh`
+## Initialisera
+1. `composer install`
+2. `cp .env.example .env`
+3. `php artisan key:generate`
+4. `docker-compose up -d`
+5. `./initdb.sh`
+
+PHP-servern kör på port 80.
 
 ## Adresser
 * Login till admin: `/login`.
