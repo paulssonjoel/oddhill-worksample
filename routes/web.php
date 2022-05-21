@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 // Unauthenticated login
-Route::get('/login', '\App\Http\Controllers\Web\LoginController@form');
-Route::post('/login', '\App\Http\Controllers\Web\LoginController@login');
+Route::middleware(['\App\Http\Middleware\IsGuestMiddleware'])->group(function () {
+    Route::get('/login', '\App\Http\Controllers\Web\LoginController@form');
+    Route::post('/login', '\App\Http\Controllers\Web\LoginController@login');
+});
 
 // Authenticated admin panel
 Route::middleware(['\App\Http\Middleware\IsAdminMiddleware'])->prefix('admin')->group(function () {
