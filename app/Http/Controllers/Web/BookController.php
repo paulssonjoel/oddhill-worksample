@@ -7,9 +7,9 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Utilities\Search;
 use App\Models\Author;
-use App\Models\AuthorBook;
 use App\Models\BookGenre;
 use App\Models\Genre;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -64,13 +64,11 @@ class BookController extends Controller
                 $book->save();
 
                 // Store author-book relationships
-                foreach ($validated['authors'] as $authorID) {
-                    $book->author_book()->save(new AuthorBook(['author_id' => $authorID]));
-                }
+                $book->authors()->saveMany(Author::find($validated['authors']));
 
                 // Store genre-book relationships
                 foreach ($validated['genres'] as $id) {
-                    $book->author_book()->save(new BookGenre(['genre_id' => $id]));
+                    $book->book_genre()->save(new BookGenre(['genre_id' => $id]));
                 }
             }
         );
@@ -115,17 +113,17 @@ class BookController extends Controller
 
                 if (isset($validated['authors'])) {
                     // Remove authors no longer selected
-                    $book->author_book()->whereNotIn('author_id', $validated['authors'])->delete();
+                    $book->authors()->whereNotIn('authors.id', $validated['authors'])->detach();
 
                     // Add newly selected authors
-                    $newAuthorBooks = [];
-                    foreach ($validated['authors'] as $authorID) {
-                        if (!$book->author_book->contains($authorID)) {
-                            // Not in DB, add
-                            $newAuthorBooks[] = new AuthorBook(['author_id' => $authorID]);
-                        }
-                    }
-                    $book->author_book()->saveMany($newAuthorBooks);
+                    $book->authors()->saveMany(
+                        Author
+                            ::whereIn('id', $validated['authors']) // Get selected authors
+                            ->whereDoesntHave('books', function (Builder $query) use ($book) {
+                                $query->where('books.id', '==', $book->id);
+                            }) // Relationship does not already exist
+                            ->get()
+                    );
                 }
 
                 if (isset($validated['genres'])) {
@@ -150,7 +148,7 @@ class BookController extends Controller
 
     public function destroy(Request $request, Book $book)
     {
-        $book->author_book()->delete();
+        $book->authors()->detach();
         $book->book_genre()->delete();
         $book->delete();
         return redirect('/admin/books/create');

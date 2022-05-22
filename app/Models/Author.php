@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AuthorBook;
 use App\Models\BookGenre;
 
 class Author extends Model
@@ -15,9 +14,9 @@ class Author extends Model
 
     public $timestamps = false;
 
-    public function author_book()
+    public function books()
     {
-        return $this->hasMany(AuthorBook::class);
+        return $this->belongsToMany(Book::class, 'authors_books');
     }
 
     public function book_genre()

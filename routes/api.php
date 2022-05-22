@@ -9,7 +9,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/books', '\App\Http\Controllers\API\BookController@index');
     Route::get('/books/{book}/openLibrary', '\App\Http\Controllers\API\BookController@viewOpenLibrary');
     Route::get('/books/{book}', fn (Book $book) => $book);
-    Route::get('/books/{book}/authors', fn (Book $book) => $book->author_book->pluck('author'));
+    Route::get('/books/{book}/authors', fn (Book $book) => $book->authors);
     Route::get('/books/{book}/genres', fn (Book $book) => $book->book_genre->pluck('genre'));
 
     Route::get('/authors', '\App\Http\Controllers\API\AuthorController@index');

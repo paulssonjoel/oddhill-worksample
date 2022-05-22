@@ -64,7 +64,7 @@ class AuthorController extends Controller
 
     public function destroy(Request $request, Author $author)
     {
-        $author->author_book()->delete();
+        $author->books()->detach();
         $author->delete();
         return redirect('/admin/authors/create');
     }
