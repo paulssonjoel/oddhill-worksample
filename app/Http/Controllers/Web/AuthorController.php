@@ -32,7 +32,7 @@ class AuthorController extends Controller
         // Store author
         $author = new Author;
         $author->name = $validated['name'];
-        $author->biography = $validated['biography'];
+        $author->biography = $validated['biography'] ?? null;
         $author->save();
 
         // Redirect back

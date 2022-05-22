@@ -58,7 +58,7 @@ class BookController extends Controller
                 $book = new Book;
                 $book->title = $validated['title'];
                 $book->isbn = $validated['isbn'];
-                $book->description = $validated['description'];
+                $book->description = $validated['description'] ?? null;
                 $book->save();
 
                 // Store relationships
