@@ -1,7 +1,7 @@
 <x-form-errors />
 
 <form action="" method="POST">
-    <input name="name" placeholder="name" value="{{ $author->name }}">
+    <input name="name" placeholder="name" value="{{ $author->name }}" required>
     <textarea name="biography" placeholder="biography">{{ $author->biography }}</textarea>
     <input type="submit">
     @csrf

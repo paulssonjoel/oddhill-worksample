@@ -1,8 +1,8 @@
 <x-form-errors />
 
 <form action="" method="POST">
-    <input name="title" placeholder="name" value="{{ $book->title }}">
-    <input name="isbn" placeholder="isbn" value="{{ $book->isbn }}">
+    <input name="title" placeholder="name" value="{{ $book->title }}" required>
+    <input name="isbn" placeholder="isbn" value="{{ $book->isbn }}" required>
 
     <textarea name="description" placeholder="description">{{ $book->description }}</textarea>
 
