@@ -11,7 +11,7 @@ PHP-servern kör på port 80.
 ## Adresser
 * Login till admin: `/login`.
 * Adminsidor: `/admin/{books,authors,genres}/create` och `/admin/{books,authors,genres}/id`.
-* API: `/api/{books,authors,genres}/?searchterm=value`, `/api/{books,authors,genres}/id` och `/api/books/id/{authors,genres,openLibrary}`.
+* API: `/api/v1/{books,authors,genres}/?searchterm=value`, `/api/v1/{books,authors,genres}/id` och `/api/v1/books/id/{authors,genres,openLibrary}`.
 
 ### Värden
 * `id` är valfritt ID.
