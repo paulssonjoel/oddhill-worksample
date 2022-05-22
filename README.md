@@ -9,7 +9,7 @@
 PHP-servern kör på port 80.
 
 ## Adresser
-* Login till admin: `/login`.
+* Login till admin: `/login` (lösenord: `pwd`).
 * Adminsidor: `/admin/{books,authors,genres}/create` och `/admin/{books,authors,genres}/id`.
 * API: `/api/v1/{books,authors,genres}`, `/api/v1/{books,authors,genres}/?searchterm=value`, `/api/v1/{books,authors,genres}/id` och `/api/v1/books/id/{authors,genres,openLibrary}`.
 
