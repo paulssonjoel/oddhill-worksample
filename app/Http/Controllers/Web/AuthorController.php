@@ -66,6 +66,6 @@ class AuthorController extends Controller
     {
         $author->author_book()->delete();
         $author->delete();
-        return redirect('/authors/create');
+        return redirect('/admin/authors/create');
     }
 }

@@ -54,6 +54,6 @@ class GenreController extends Controller
     {
         $genre->book_genre()->delete();
         $genre->delete();
-        return redirect('/genres/create');
+        return redirect('/admin/genres/create');
     }
 }

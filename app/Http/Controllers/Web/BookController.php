@@ -153,6 +153,6 @@ class BookController extends Controller
         $book->author_book()->delete();
         $book->book_genre()->delete();
         $book->delete();
-        return redirect('/books/create');
+        return redirect('/admin/books/create');
     }
 }
