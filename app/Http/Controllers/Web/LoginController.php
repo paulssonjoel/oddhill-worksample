@@ -20,6 +20,6 @@ class LoginController extends Controller
 
         // Set admin status
         session()->put('isAdmin', true);
-        return redirect('/admin');
+        return redirect('/admin/books/create');
     }
 }
