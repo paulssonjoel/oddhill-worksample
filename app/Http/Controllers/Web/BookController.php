@@ -44,10 +44,10 @@ class BookController extends Controller
             [
                 'title' => array_merge(['required'], static::$validationRules['title']),
                 'isbn' => array_merge(['required'], static::$validationRules['isbn']),
-                'authors' => array_merge(['required'], static::$validationRules['authors']),
-                'authors.*' => array_merge(['required'], static::$validationRules['authors.*']),
-                'genres' => array_merge(['required'], static::$validationRules['genres']),
-                'genres.*' => array_merge(['required'], static::$validationRules['genres.*']),
+                'authors' => static::$validationRules['authors'],
+                'authors.*' => static::$validationRules['authors.*'],
+                'genres' => static::$validationRules['genres'],
+                'genres.*' => static::$validationRules['genres.*'],
                 'description' => static::$validationRules['description'],
             ]
         );
@@ -62,8 +62,10 @@ class BookController extends Controller
                 $book->save();
 
                 // Store relationships
-                $book->authors()->saveMany(Author::find($validated['authors']));
-                $book->genres()->saveMany(Genre::find($validated['genres']));
+                if (isset($validated['authors']))
+                    $book->authors()->saveMany(Author::find($validated['authors']));
+                if (isset($validated['genres']))
+                    $book->genres()->saveMany(Genre::find($validated['genres']));
             }
         );
 
