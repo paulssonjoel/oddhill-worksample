@@ -13,8 +13,8 @@ class Genre extends Model
 
     public $timestamps = false;
 
-    public function book_genre()
+    public function books()
     {
-        return $this->hasMany(BookGenre::class);
+        return $this->belongsToMany(Book::class, 'books_genres');
     }
 }

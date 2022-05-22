@@ -18,7 +18,7 @@
     Select genres:
     @foreach ($possibleGenres as $genre)
         {{ $genre->name }}: <input type="checkbox" name="genres[]" value="{{ $genre->id }}"
-            @if ($book->book_genre->contains('genre_id', $genre->id)) checked="true" @endif>
+            @if ($book->genres->contains('id', $genre->id)) checked="true" @endif>
     @endforeach
 
     <input type="submit">

@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Utilities\Search;
 use App\Models\Author;
-use App\Models\BookGenre;
 use App\Models\Genre;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -63,13 +61,9 @@ class BookController extends Controller
                 $book->description = $validated['description'];
                 $book->save();
 
-                // Store author-book relationships
+                // Store relationships
                 $book->authors()->saveMany(Author::find($validated['authors']));
-
-                // Store genre-book relationships
-                foreach ($validated['genres'] as $id) {
-                    $book->book_genre()->save(new BookGenre(['genre_id' => $id]));
-                }
+                $book->genres()->saveMany(Genre::find($validated['genres']));
             }
         );
 
@@ -128,17 +122,17 @@ class BookController extends Controller
 
                 if (isset($validated['genres'])) {
                     // Remove genres no longer selected
-                    $book->book_genre()->whereNotIn('genre_id', $validated['genres'])->delete();
+                    $book->genres()->whereNotIn('genres.id', $validated['genres'])->detach();
 
                     // Add newly selected genres
-                    $newBookGenres = [];
-                    foreach ($validated['genres'] as $id) {
-                        if (!$book->book_genre->contains($id)) {
-                            // Not in DB, add
-                            $newBookGenres[] = new BookGenre(['genre_id' => $id]);
-                        }
-                    }
-                    $book->book_genre()->saveMany($newBookGenres);
+                    $book->genres()->saveMany(
+                        Genre
+                            ::whereIn('id', $validated['genres']) // Get selected genres
+                            ->whereDoesntHave('books', function (Builder $query) use ($book) {
+                                $query->where('books.id', '==', $book->id);
+                            }) // Relationship does not already exist
+                            ->get()
+                    );
                 }
             }
         );
@@ -149,7 +143,7 @@ class BookController extends Controller
     public function destroy(Request $request, Book $book)
     {
         $book->authors()->detach();
-        $book->book_genre()->delete();
+        $book->genres()->detach();
         $book->delete();
         return redirect('/admin/books/create');
     }

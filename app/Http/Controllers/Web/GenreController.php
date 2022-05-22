@@ -52,7 +52,7 @@ class GenreController extends Controller
 
     public function destroy(Request $request, Genre $genre)
     {
-        $genre->book_genre()->delete();
+        $genre->books()->detach();
         $genre->delete();
         return redirect('/admin/genres/create');
     }
