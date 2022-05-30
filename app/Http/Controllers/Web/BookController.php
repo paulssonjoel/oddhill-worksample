@@ -107,35 +107,11 @@ class BookController extends Controller
                 $book->fill(Arr::only($validated, ['title', 'isbn', 'description']));
                 $book->save();
 
-                if (isset($validated['authors'])) {
-                    // Remove authors no longer selected
-                    $book->authors()->whereNotIn('authors.id', $validated['authors'])->detach();
+                if (isset($validated['authors']))
+                    $book->authors()->sync($validated['authors']);
 
-                    // Add newly selected authors
-                    $book->authors()->saveMany(
-                        Author
-                            ::whereIn('id', $validated['authors']) // Get selected authors
-                            ->whereDoesntHave('books', function (Builder $query) use ($book) {
-                                $query->where('books.id', '==', $book->id);
-                            }) // Relationship does not already exist
-                            ->get()
-                    );
-                }
-
-                if (isset($validated['genres'])) {
-                    // Remove genres no longer selected
-                    $book->genres()->whereNotIn('genres.id', $validated['genres'])->detach();
-
-                    // Add newly selected genres
-                    $book->genres()->saveMany(
-                        Genre
-                            ::whereIn('id', $validated['genres']) // Get selected genres
-                            ->whereDoesntHave('books', function (Builder $query) use ($book) {
-                                $query->where('books.id', '==', $book->id);
-                            }) // Relationship does not already exist
-                            ->get()
-                    );
-                }
+                if (isset($validated['genres']))
+                    $book->genres()->sync($validated['genres']);
             }
         );
 
