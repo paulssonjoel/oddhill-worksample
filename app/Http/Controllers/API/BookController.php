@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Utilities\Search;
 use Illuminate\Support\Facades\Http;
 
 class BookController extends Controller
@@ -13,10 +12,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         // Retrieve books, optionally with 'isbn' and 'title' as search terms
-        $q = new Book;
-
-        $q = Search::search(
-            $q,
+        $q = Book::search(
             [
                 'isbn' => $request->input('isbn'),
                 'title' => $request->input('title'),
